@@ -18,8 +18,7 @@
 		"\t\trow     target core start row coordinate\n" \
 		"\t\tcol     target core start column coordinate\n" \
 		"\t\trows    number of rows to test\n" \
-		"\t\tcols    number of columns to test\n" \
-		"\t\tpara    run test in parallel\n"
+		"\t\tcols    number of columns to test\n"
 
 static void e_check_test(void* dev, unsigned row, unsigned col, int* status);
 
@@ -27,7 +26,7 @@ int main(int argc, char** args) {
 	e_loader_diag_t e_verbose;
 	e_platform_t platform;
 	e_epiphany_t dev;
-	int row0, col0, rows, cols, para;
+	int row0, col0, rows, cols;
 	int status = 1; // pass
 	int i, j;
 
@@ -35,7 +34,7 @@ int main(int argc, char** args) {
 	char* epiphanyExecutable = (char*) malloc(sizeof(char) * (strlen(hostExecutable) + strlen(E_EXECUTABLE) + 1 + 1));
 	sprintf(epiphanyExecutable, "%s/%s", dirname(hostExecutable), E_EXECUTABLE);
 
-	if (argc < 6) {
+	if (argc < 5) {
 		printf(HELP_TEXT);
 		free(hostExecutable);
 		free(epiphanyExecutable);
@@ -45,7 +44,6 @@ int main(int argc, char** args) {
 		col0 = atoi(args[2]);
 		rows = atoi(args[3]);
 		cols = atoi(args[4]);
-		para = atoi(args[5]);
 
 		// initalize epiphany device
 		e_init(nullptr);
@@ -54,17 +52,7 @@ int main(int argc, char** args) {
 		// e_set_loader_verbosity(L_D3);
 		e_open(&dev, 0, 0, platform.rows, platform.cols); //open all cores
 
-		// load program one at a time, checking one a time
-		if(para) {
-			printf("running in parallel\n");
-			for (i = row0; i < row0 + rows; i += 1) {
-				for (j = col0; j < col0 + cols; j += 1) {
-					e_load_group(epiphanyExecutable, &dev, i, j, 1, 1, E_TRUE);
-				}
-			}
-		} else {
-			e_load_group(epiphanyExecutable, &dev, row0, col0, (row0+rows), (col0+cols), E_TRUE);
-		}
+		e_load_group(epiphanyExecutable, &dev, row0, col0, (row0+rows), (col0+cols), E_TRUE);
 
 		// checking the test
 		for (i = row0; i < row0 + rows; i += 1) {
