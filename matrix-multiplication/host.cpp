@@ -30,7 +30,6 @@ int main(int argc, char** args) {
 	e_epiphany_t dev;
 	int row0, col0, rows, cols;
 	int status = 1; // pass
-	int i, j;
 
 	char* hostExecutable = strdup(args[0]);
 	char* epiphanyExecutable = (char*) malloc(sizeof(char) * (strlen(hostExecutable) + strlen(E_EXECUTABLE) + 1 + 1));
@@ -57,8 +56,8 @@ int main(int argc, char** args) {
 		e_load_group(epiphanyExecutable, &dev, row0, col0, (row0+rows), (col0+cols), E_TRUE);
 
 		// checking the test
-		for (i = row0; i < row0 + rows; i += 1) {
-			for (j = col0; j < col0 + cols; j += 1) {
+		for (int i = row0; i < row0 + rows; i += 1) {
+			for (int j = col0; j < col0 + cols; j += 1) {
 				e_check_test(&dev, i, j, &status);
 			}
 		}

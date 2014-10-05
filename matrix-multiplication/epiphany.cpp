@@ -50,7 +50,6 @@ void e_write_ack(u32* addr) {
 }
 
 int main(int argc, char** args) {
-	int  i, j, k;
 	f32  sum = 0.0f;
 	int  status = 1;
 	u32  coreID;
@@ -59,26 +58,26 @@ int main(int argc, char** args) {
 	coreID = e_test_init();
 
 	// fill input matrices with a constant
-	for (i = 0; i < N; i += 1) {
-		for (j = 0; j < N; j += 1) {
+	for (int i = 0; i < N; i += 1) {
+		for (int j = 0; j < N; j += 1) {
 			A(i,j) = sfrand();
 			B(i,j) = sfrand();
 		}
 	}
 
 	// run matrix multiplication
-	for (i = 0; i < N; i+= 1) {
-		for (j = 0; j < N; j += 1) {
+	for (int i = 0; i < N; i+= 1) {
+		for (int j = 0; j < N; j += 1) {
 			C(i,j) = 0;
-			for (k = 0; k < N; k += 1) {
+			for (int k = 0; k < N; k += 1) {
 				C(i,j) += A(i,k) * B(k,j);
 			}
 		}
 	}
 
 	// sum up the C matrix
-	for (i = 0; i < N; i++) {
-		for (j = 0; j < N; j++) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
 			sum += C(i,j);
 		}
 	}
