@@ -41,7 +41,16 @@ $(H_EXECUTABLE): $(H_OBJECTS)
 %-host.o: %.cpp
 	$(H_CXX) $(H_CXXFLAGS) $(H_INCLUDE) -o $@ -c $<
 
+.depend-host: $(H_SOURCES)
+	$(H_CXX) $(H_CXXFLAGS) $(H_INCLUDE) -MM $^ | sed s/.o:/-host.o:/ > $@
+
+.depend-epiphany: $(E_SOURCES)
+	$(E_CXX) $(E_CXXFLAGS) $(E_INCLUDE) -MM $^ | sed s/.o:/-epiphany.o:/ > $@
+
+-include .depend-host
+-include .depend-epiphany
+
 .PHONY: clean
 clean:
-	rm -f *.o $(H_EXECUTABLE) $(E_ELF) $(E_EXECUTABLE)
+	rm -f *.o .depend-host .depend-epiphany $(H_EXECUTABLE) $(E_ELF) $(E_EXECUTABLE)
 
