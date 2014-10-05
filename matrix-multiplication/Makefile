@@ -1,11 +1,11 @@
 H_CXX     =g++
-H_CXXFLAGS=-std=c++1y
+H_CXXFLAGS=-Wall -Wextra -std=c++1y -DE_EXECUTABLE=\"$(E_EXECUTABLE)\"
 H_INCLUDE =-I ${EPIPHANY_HOME}/tools/host/include
 H_LD      =$(H_CXX)
 H_LIBS    =-L ${EPIPHANY_HOME}/tools/host/lib -le-hal
 
 E_CXX     =e-g++
-E_CXXFLAGS=-std=c++1y
+E_CXXFLAGS=-Wall -Wextra -std=c++1y
 E_INCLUDE =
 E_LD      =$(E_CXX)
 E_LFLAGS  =-T ${EPIPHANY_HOME}/bsps/current/internal.ldf
