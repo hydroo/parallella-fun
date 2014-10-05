@@ -2,7 +2,7 @@ H_CXX     =g++
 H_CXXFLAGS=-std=c++1y
 H_INCLUDE =-I ${EPIPHANY_HOME}/tools/host/include
 H_LD      =$(H_CXX)
-H_LIBS    =-L ${EPIPHANY_HOME}/tools/host/lib -le-hal -lpthread
+H_LIBS    =-L ${EPIPHANY_HOME}/tools/host/lib -le-hal
 
 E_CXX     =e-g++
 E_CXXFLAGS=-std=c++1y
