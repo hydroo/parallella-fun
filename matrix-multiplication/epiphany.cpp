@@ -5,13 +5,11 @@
 #define B(i,j) b_mat[j*N+i]
 #define C(i,j) c_mat[j*N+i]
 
-f32 a_mat[N*N] __attribute__ ((section (".data_bank1"))); // result matrix
-f32 b_mat[N*N] __attribute__ ((section (".data_bank2"))); // result matrix
-f32 c_mat[N*N] __attribute__ ((section (".data_bank3"))); // result matrix
+f32 a_mat[N*N] __attribute__ ((section (".data_bank1")));
+f32 b_mat[N*N] __attribute__ ((section (".data_bank2")));
+f32 c_mat[N*N] __attribute__ ((section (".data_bank3")));
 
 static f32 sfrand();
-
-static unsigned int mirand =1;
 
 u32 e_test_init() {
 	u32 *pass = (u32*) 0x24; // use user interrupt entry for now
@@ -20,11 +18,11 @@ u32 e_test_init() {
 	// resetting mask register
 	__asm__ __volatile__ ("MOVTS IMASK, %0" : : "r" (0x0));
 
-	// get the coreID using assembly
-	register u32 coreid_in_reg asm("r0");
-	__asm__ __volatile__ ("MOVFS %0, COREID" : : "r" (coreid_in_reg));
-	coreid_in_reg = coreid_in_reg << 20;
-	return coreid_in_reg;
+	// get the coreIdentifier using assembly
+	register u32 coreIdentifier asm("r0");
+	__asm__ __volatile__ ("MOVFS %0, COREID" : : "r" (coreIdentifier));
+	coreIdentifier <<= 20;
+	return coreIdentifier;
 }
 
 int e_test_finish(int status) {
@@ -49,23 +47,23 @@ void e_write_ack(u32* addr) {
 int main(int argc, char** args) {
 	f32  sum = 0.0f;
 	int  status = 1;
-	u32  coreID;
+	u32  coreIdentifier;
 
 	// test init
-	coreID = e_test_init();
+	coreIdentifier = e_test_init();
 
 	// fill input matrices with a constant
 	for (int i = 0; i < N; i += 1) {
 		for (int j = 0; j < N; j += 1) {
 			A(i,j) = sfrand();
 			B(i,j) = sfrand();
+			C(i,j) = 0;
 		}
 	}
 
 	// run matrix multiplication
 	for (int i = 0; i < N; i+= 1) {
 		for (int j = 0; j < N; j += 1) {
-			C(i,j) = 0;
 			for (int k = 0; k < N; k += 1) {
 				C(i,j) += A(i,k) * B(k,j);
 			}
@@ -92,6 +90,7 @@ int main(int argc, char** args) {
 
 // weird and cool random floating point generator from www.rgba.org/articles/sfrand/sfrand.htm
 f32 sfrand() {
+	static u32 mirand = 1;
 	u32 a;
 	mirand *= 16807;
 	a = (mirand & 0x007fffff) | 0x40000000;
