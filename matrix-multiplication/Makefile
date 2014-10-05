@@ -9,7 +9,7 @@ E_CXXFLAGS=-Wall -Wextra -std=c++1y
 E_INCLUDE =
 E_LD      =$(E_CXX)
 E_LFLAGS  =-T ${EPIPHANY_HOME}/bsps/current/internal.ldf
-E_LIBS    =-le-lib -lm
+E_LIBS    =-le-lib
 E_OBJCOPY =e-objcopy --srec-forceS3 --output-target srec
 
 PROJECT_NAME=matrix-multiplication

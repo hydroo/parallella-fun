@@ -8,7 +8,6 @@
 #include <unistd.h>
 
 #include <e-hal.h>
-#include <e-loader.h>
 
 #define HELP_TEXT \
 		"matrix-multiplication-host <row> <col> <rows> <cols>\n" \
@@ -25,7 +24,6 @@
 static void e_check_test(void* dev, unsigned row, unsigned col, int* status);
 
 int main(int argc, char** args) {
-	e_loader_diag_t e_verbose;
 	e_platform_t platform;
 	e_epiphany_t dev;
 	int row0, col0, rows, cols;

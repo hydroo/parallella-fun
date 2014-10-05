@@ -1,8 +1,5 @@
 #include "prereqs.hpp"
 
-#include <cstdlib>
-#include <cstdio>
-
 #define N 16
 #define A(i,j) a_mat[j*N+i]
 #define B(i,j) b_mat[j*N+i]
