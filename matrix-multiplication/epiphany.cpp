@@ -37,10 +37,10 @@ int e_test_finish(int status) {
 
 void e_write_ack(u32* addr) {
 	u32 probe_data;
-	probe_data = *(addr);                // read old data
-	probe_data = probe_data ^ 0xFFFFFFFF;// toggle old data
-	(*(addr)) = probe_data;              // write new toggled data
-	while(probe_data != *(addr)){        // keep reading until match is met
+	probe_data = *(addr);         // read old data
+	probe_data ^= 0xFFFFFFFF;     // toggle old data
+	(*(addr)) = probe_data;       // write new toggled data
+	while(probe_data != *(addr)){ // keep reading until match is met
 	}
 }
 
