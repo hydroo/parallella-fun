@@ -4,13 +4,13 @@ H_INCLUDE =-I ${EPIPHANY_HOME}/tools/host/include
 H_LD      =$(H_CXX)
 H_LIBS    =-L ${EPIPHANY_HOME}/tools/host/lib -le-hal -lpthread
 
-E_CC     =e-gcc
-E_CFLAGS =
-E_INCLUDE=
-E_LD     =$(E_CC)
-E_LFLAGS =-T ${EPIPHANY_HOME}/bsps/current/internal.ldf
-E_LIBS   =-le-lib -lm
-E_OBJCOPY=e-objcopy --srec-forceS3 --output-target srec
+E_CXX     =e-g++
+E_CXXFLAGS=-std=c++1y
+E_INCLUDE =
+E_LD      =$(E_CXX)
+E_LFLAGS  =-T ${EPIPHANY_HOME}/bsps/current/internal.ldf
+E_LIBS    =-le-lib -lm
+E_OBJCOPY =e-objcopy --srec-forceS3 --output-target srec
 
 PROJECT_NAME=matrix-multiplication
 
@@ -21,7 +21,7 @@ H_OBJECTS=$(patsubst %.cpp,%-host.o,$(H_SOURCES))
 
 E_EXECUTABLE=$(PROJECT_NAME)-epiphany.srec
 E_ELF=$(patsubst %.srec, %.elf, $(E_EXECUTABLE))
-E_SOURCES=e-task.c test_common.c
+E_SOURCES=epiphany.cpp
 E_OBJECTS=$(patsubst %.c,%-epiphany.o,$(E_SOURCES)) 
 
 all: $(H_EXECUTABLE) $(E_EXECUTABLE)
@@ -33,7 +33,7 @@ $(E_ELF): $(E_OBJECTS)
 	$(E_LD) $(E_LFLAGS) -o $@ $^ $(E_LIBS)
 
 %-epiphany.o: %.c
-	$(E_CC) $(E_CFLAGS) $(E_INCLUDE) -o $@ -c $<
+	$(E_CXX) $(E_CXXFLAGS) $(E_INCLUDE) -o $@ -c $<
 
 $(H_EXECUTABLE): $(H_OBJECTS)
 	$(H_LD) $(H_LFLAGS) -o $@ $^ $(H_LIBS)
