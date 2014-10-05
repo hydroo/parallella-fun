@@ -1,6 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+
+#include <unistd.h>
+
 #include <e-hal.h>
 #include <e-loader.h>
 
