@@ -1,3 +1,5 @@
+#include "prereqs.hpp"
+
 #include <libgen.h>
 #include <cstdlib>
 #include <cstdio>
@@ -78,22 +80,22 @@ int main(int argc, char** args) {
 }
 
 void e_check_test(void* dev, unsigned row, unsigned col, int* status) {
-	unsigned int result;
-	int wait = 1;
+	u32 result;
+	bool wait = true;
 
 	while(1) {
-		e_read(dev, row, col, 0x24, &result, sizeof(unsigned));
+		e_read(dev, row, col, 0x24, &result, sizeof(u32));
 		if (result == 0xdeadbeef) {
 			printf("core (%d,%d) failed\n",row,col);
 			*status = 0;
 			break;
-		} else if (result==0x12345678) {
-			unsigned clr = (unsigned) 0x0;
+		} else if (result == 0x12345678) {
+			u32 clr = (u32) 0x0;
 			e_write(dev, row, col, 0x24, &clr, sizeof(clr));
 			printf("core %d,%d passed\n", row, col);
 			break;
 		} else{
-			if (wait){
+			if (wait == true){
 				usleep(10000);
 				printf("core %d,%d waiting...\n", row, col);
 				wait = 0;
