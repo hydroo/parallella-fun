@@ -7,8 +7,21 @@
 #include <e-hal.h>
 #include <e-loader.h>
 
+#define HELP_TEXT \
+		"matrix-multiplication-host <row> <col> <rows> <cols> <srec>\n" \
+		"\n" \
+		"\texample:\n" \
+		"\t\tmatrix-multiplication-host 0 0 4 4 1 my.srec\n" \
+		"\n" \
+		"\toptions:\n" \
+		"\t\trow     target core start row coordinate\n" \
+		"\t\tcol     target core start column coordinate\n" \
+		"\t\trows    number of rows to test\n" \
+		"\t\tcols    number of columns to test\n" \
+		"\t\tpara    run test in parallel\n" \
+		"\t\tsrec    path to srec file\n"
+
 static void e_check_test(void* dev, unsigned row, unsigned col, int* status);
-static void usage();
 
 int main(int argc, char** args) {
 	e_loader_diag_t e_verbose;
@@ -20,8 +33,8 @@ int main(int argc, char** args) {
 	int i, j;
 
 	if (argc < 5) {
-		usage();
-		status = 0;
+		printf(HELP_TEXT);
+		exit(0);
 	} else {
 		row0 = atoi(args[1]);
 		col0 = atoi(args[2]);
@@ -96,21 +109,4 @@ void e_check_test(void* dev, unsigned row, unsigned col, int* status) {
 			}
 		}
 	}
-}
-
-void usage() {
-	printf(
-			"matrix-multiplication-host <row> <col> <rows> <cols> <srec>\n"
-			"\n"
-			"\texample:\n"
-			"\t\te-test 0 0 4 4 1 my.srec\n"
-			"\n"
-			"\toptions:\n"
-			"\t\trow     target core start row coordinate\n"
-			"\t\tcol     target core start column coordinate\n"
-			"\t\trows    number of rows to test\n"
-			"\t\tcols    number of columns to test\n"
-			"\t\tpara    run test in parallel\n"
-			"\t\tsrec    path to srec file\n"
-			);
 }
