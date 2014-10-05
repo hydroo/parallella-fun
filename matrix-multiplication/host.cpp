@@ -1,3 +1,4 @@
+#include <libgen.h>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -8,7 +9,7 @@
 #include <e-loader.h>
 
 #define HELP_TEXT \
-		"matrix-multiplication-host <row> <col> <rows> <cols> <srec>\n" \
+		"matrix-multiplication-host <row> <col> <rows> <cols>\n" \
 		"\n" \
 		"\texample:\n" \
 		"\t\tmatrix-multiplication-host 0 0 4 4 1 my.srec\n" \
@@ -18,8 +19,7 @@
 		"\t\tcol     target core start column coordinate\n" \
 		"\t\trows    number of rows to test\n" \
 		"\t\tcols    number of columns to test\n" \
-		"\t\tpara    run test in parallel\n" \
-		"\t\tsrec    path to srec file\n"
+		"\t\tpara    run test in parallel\n"
 
 static void e_check_test(void* dev, unsigned row, unsigned col, int* status);
 
@@ -28,12 +28,17 @@ int main(int argc, char** args) {
 	e_platform_t platform;
 	e_epiphany_t dev;
 	int row0, col0, rows, cols, para;
-	char elfFile[4096];
 	int status = 1; // pass
 	int i, j;
 
-	if (argc < 5) {
+	char* hostExecutable = strdup(args[0]);
+	char* epiphanyExecutable = (char*) malloc(sizeof(char) * (strlen(hostExecutable) + strlen(E_EXECUTABLE) + 1 + 1));
+	sprintf(epiphanyExecutable, "%s/%s", dirname(hostExecutable), E_EXECUTABLE);
+
+	if (argc < 6) {
 		printf(HELP_TEXT);
+		free(hostExecutable);
+		free(epiphanyExecutable);
 		exit(0);
 	} else {
 		row0 = atoi(args[1]);
@@ -41,7 +46,6 @@ int main(int argc, char** args) {
 		rows = atoi(args[3]);
 		cols = atoi(args[4]);
 		para = atoi(args[5]);
-		strcpy(elfFile, args[6]);
 
 		// initalize epiphany device
 		e_init(nullptr);
@@ -55,11 +59,11 @@ int main(int argc, char** args) {
 			printf("running in parallel\n");
 			for (i = row0; i < row0 + rows; i += 1) {
 				for (j = col0; j < col0 + cols; j += 1) {
-					e_load_group(elfFile, &dev, i, j, 1, 1, E_TRUE);
+					e_load_group(epiphanyExecutable, &dev, i, j, 1, 1, E_TRUE);
 				}
 			}
 		} else {
-			e_load_group(elfFile, &dev, row0, col0, (row0+rows), (col0+cols), E_TRUE);
+			e_load_group(epiphanyExecutable, &dev, row0, col0, (row0+rows), (col0+cols), E_TRUE);
 		}
 
 		// checking the test
@@ -73,6 +77,9 @@ int main(int argc, char** args) {
 		e_close(&dev);
 		e_finalize();
 	}
+
+	free(hostExecutable);
+	free(epiphanyExecutable);
 
 	// self check
 	if (status) {
