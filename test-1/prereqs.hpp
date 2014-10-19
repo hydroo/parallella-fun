@@ -16,9 +16,9 @@ typedef double      f64;
 typedef long double f80;
 
 enum UserInterrupt {
-	ReadyInterrupt       = 0x0,
-	StartedInterrupt     = 0x1,
-	FinishInterrupt      = 0x2,
+	Ready   = 0x0,
+	Started = 0x1,
+	Finish  = 0x2,
 };
 
 #endif // PREREQS_HPP

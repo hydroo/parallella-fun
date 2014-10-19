@@ -42,7 +42,7 @@ int main(int argc, char** args) {
 	//e_set_loader_verbosity(L_D3);
 	e_open(&dev, y, x, 1, 1);
 
-	UserInterrupt init = ReadyInterrupt;
+	UserInterrupt init = UserInterrupt::Ready;
 	e_write((void*) &dev, 0, 0, 0x24, &init, sizeof(init));
 
 	e_load_group(epiphanyExecutable, &dev, 0, 0, 1, 1, E_TRUE);
@@ -58,13 +58,13 @@ int main(int argc, char** args) {
 		UserInterrupt what;
 		e_read((void*) &dev, 0, 0, 0x24, &what, sizeof(what));
 		switch (what) {
-		case ReadyInterrupt:
+		case UserInterrupt::Ready:
 			if (ready == false) {
 				printf("epiphany ready.\n");
 				ready = true;
 			}
 			break;
-		case StartedInterrupt:
+		case UserInterrupt::Started:
 			if (started == false) {
 				u32 x_, y_;
 				e_read((void*) &dev, 0, 0, 0x40, &x_, sizeof(x_));
@@ -93,7 +93,7 @@ int main(int argc, char** args) {
 				started = true;
 			}
 			break;
-		case FinishInterrupt:
+		case UserInterrupt::Finish:
 			printf("epiphany wants to quit. quitting.\n");
 			quit = true;
 			break;

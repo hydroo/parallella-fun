@@ -28,7 +28,7 @@ int main(int argc, char** args) {
 	*((u32*) 0x54) = (u32) c;
 	*((u32*) 0x58) = (u32) d;
 
-	*((UserInterrupt*) 0x24) = StartedInterrupt;
+	*((UserInterrupt*) 0x24) = UserInterrupt::Started;
 
 	// e_wait(E_CTIMER_0, 600 * 1000 * 100);
 
@@ -39,7 +39,7 @@ int main(int argc, char** args) {
 	while ((*((u32*) 0x48) = e_ctimer_get(E_CTIMER_0)) > 0) {
 	}
 
-	*((UserInterrupt*) 0x24) = FinishInterrupt;
+	*((UserInterrupt*) 0x24) = UserInterrupt::Finish;
 
 	return 0;
 }
