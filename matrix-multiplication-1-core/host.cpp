@@ -10,7 +10,7 @@
 #include <e-hal.h>
 
 #define HELP_TEXT \
-		"matrix-multiplication-host <row0> <col0> <rows> <cols>\n" \
+		"matrix-multiplication-1core-host <row0> <col0> <rows> <cols>\n" \
 		"\n" \
 		"\texample:\n" \
 		"\t\tmatrix-multiplication-host 0 0 4 4 1 my.srec\n" \

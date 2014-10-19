@@ -12,7 +12,7 @@ E_LFLAGS  =-T ${EPIPHANY_HOME}/bsps/current/internal.ldf
 E_LIBS    =-le-lib
 E_OBJCOPY =e-objcopy --srec-forceS3 --output-target srec
 
-PROJECT_NAME=matrix-multiplication
+PROJECT_NAME=matrix-multiplication-1-core
 
 H_EXECUTABLE=$(PROJECT_NAME)-host
 H_SOURCES=host.cpp
