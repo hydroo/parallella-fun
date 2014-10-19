@@ -138,6 +138,8 @@ int main(int argc, char** args) {
 		for (int x = 0; x < cw; x += 1) {
 			if (c[y*cw + x] != c_[y*cw + x]) {
 				correctResult = false;
+				// fmadd is allowed to round differently that c + a * b would
+				// therefore when using -O2, -O3 or w/e triggers the epiphany to use fmadd rounding is different
 				printf("incorrect result matrix c. position x %d, y %d, value should %f, value is %f\n", x, y, c_[y*cw + x], c[y*cw + x]);
 				break;
 			}
