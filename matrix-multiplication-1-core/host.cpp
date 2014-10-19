@@ -112,9 +112,9 @@ int main(int argc, char** args) {
 
 	printf("it took %d cycles and %d fpops, should take %d and %d fpops\n", cycles, fpops, cw*ch*aw, cw*ch*aw*2);
 
-	for (int i = 0; i < cw; i += 1) {
+	for (int k = 0; k < aw; k += 1) { // this order of loops is faster than the others on epiphany
 		for (int j = 0; j < ch; j += 1) {
-			for (int k = 0; k < aw; k += 1) {
+			for (int i = 0; i < cw; i += 1) {
 				c[j*cw + i] += a[j*aw + k] * b[k*bw + i];
 			}
 		}

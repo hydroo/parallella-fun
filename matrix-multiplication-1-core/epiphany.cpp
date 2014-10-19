@@ -31,9 +31,9 @@ int main(int argc, char** args) {
 	e_ctimer_start(E_CTIMER_0, E_CTIMER_FPU_INST);
 	e_ctimer_start(E_CTIMER_1, E_CTIMER_CLK);
 
-	for (int i = 0; i < cw; i += 1) {
+	for (int k = 0; k < aw; k += 1) { // this order of loops is faster than the others on epiphany
 		for (int j = 0; j < ch; j += 1) {
-			for (int k = 0; k < aw; k += 1) {
+			for (int i = 0; i < cw; i += 1) {
 				c[j*cw + i] += a[j*aw + k] * b[k*bw + i];
 			}
 		}
