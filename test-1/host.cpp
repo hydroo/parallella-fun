@@ -10,7 +10,7 @@
 #include <e-hal.h>
 
 #define HELP_TEXT \
-		"matrix-multiplication-host <y> <x>\n" \
+		"test-1-host <y> <x>\n" \
 		"\n" \
 		"\toptions:\n" \
 		"\t\ty    target core y coordinate\n" \
