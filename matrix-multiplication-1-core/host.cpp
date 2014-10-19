@@ -108,6 +108,8 @@ int main(int argc, char** args) {
 	e_read(&dev, 0, 0, 0x48, &cycles, sizeof(u32));
 	e_read(&dev, 0, 0, 0x4c, &fpops, sizeof(u32));
 
+	fpops *= 2; // they are all fmadd, but are counted as single ones
+
 	printf("it took %d cycles and %d fpops, should take %d and %d fpops\n", cycles, fpops, cw*ch*aw, cw*ch*aw*2);
 
 	for (int i = 0; i < cw; i += 1) {
