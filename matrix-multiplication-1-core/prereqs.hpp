@@ -15,4 +15,9 @@ typedef float       f32;
 typedef double      f64;
 typedef long double f80;
 
+enum UserInterrupt {
+	NotDone = 0x0,
+	Done    = 0x1,
+};
+
 #endif // PREREQS_HPP
