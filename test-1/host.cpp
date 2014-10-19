@@ -40,12 +40,12 @@ int main(int argc, char** args) {
 	e_reset_system();
 	e_get_platform_info(&platform);
 	//e_set_loader_verbosity(L_D3);
-	e_open(&dev, 0, 0, platform.rows, platform.cols); //open all cores
+	e_open(&dev, y, x, 1, 1);
 
 	UserInterrupt init = ReadyInterrupt;
-	e_write((void*) &dev, y, x, 0x24, &init, sizeof(init));
+	e_write((void*) &dev, 0, 0, 0x24, &init, sizeof(init));
 
-	e_load_group(epiphanyExecutable, &dev, y, x, 1, 1, E_TRUE);
+	e_load_group(epiphanyExecutable, &dev, 0, 0, 1, 1, E_TRUE);
 
 	bool quit = false;
 	bool started = false;
@@ -56,7 +56,7 @@ int main(int argc, char** args) {
 
 	while (quit == false) {
 		UserInterrupt what;
-		e_read((void*) &dev, y, x, 0x24, &what, sizeof(what));
+		e_read((void*) &dev, 0, 0, 0x24, &what, sizeof(what));
 		switch (what) {
 		case ReadyInterrupt:
 			if (ready == false) {
@@ -67,25 +67,25 @@ int main(int argc, char** args) {
 		case StartedInterrupt:
 			if (started == false) {
 				u32 x_, y_;
-				e_read((void*) &dev, y, x, 0x40, &x_, sizeof(x_));
-				e_read((void*) &dev, y, x, 0x44, &y_, sizeof(y_));
+				e_read((void*) &dev, 0, 0, 0x40, &x_, sizeof(x_));
+				e_read((void*) &dev, 0, 0, 0x44, &y_, sizeof(y_));
 
 				void *a, *b, *c, *d;
 
-				e_read((void*) &dev, y, x, 0x4c, &a, sizeof(void*));
-				e_read((void*) &dev, y, x, 0x50, &b, sizeof(void*));
-				e_read((void*) &dev, y, x, 0x54, &c, sizeof(void*));
-				e_read((void*) &dev, y, x, 0x58, &d, sizeof(void*));
+				e_read((void*) &dev, 0, 0, 0x4c, &a, sizeof(void*));
+				e_read((void*) &dev, 0, 0, 0x50, &b, sizeof(void*));
+				e_read((void*) &dev, 0, 0, 0x54, &c, sizeof(void*));
+				e_read((void*) &dev, 0, 0, 0x58, &d, sizeof(void*));
 
 				printf("%p, %p, %p, %p\n", a, b, c, d);
 
-				if (x != x_) {
-					printf("wrong x: %d != %d\n", x, x_);
+				if (x_ != 0) {
+					printf("wrong x: %d != %d\n", x_, 0);
 					quit = true;
 				}
 
-				if (y != y_) {
-					printf("wrong y: %d != %d\n", y, y_);
+				if (y_ != 0) {
+					printf("wrong y: %d != %d\n", y_, 0);
 					quit = true;
 				}
 
@@ -103,7 +103,7 @@ int main(int argc, char** args) {
 			break;
 		}
 
-		e_read((void*) &dev, y, x, 0x48, &value, sizeof(value));
+		e_read((void*) &dev, 0, 0, 0x48, &value, sizeof(value));
 		if (value != previousValue) {
 			// printf("value %d\n", value);
 			previousValue = value;
@@ -111,7 +111,7 @@ int main(int argc, char** args) {
 	}
 
 	u8 buf[0xbd0];
-	e_read((void*) &dev, y, x, 0x1430, buf, 0xbd0);
+	e_read((void*) &dev, 0, 0, 0x1430, buf, 0xbd0);
 
 	for (int i = 0; i < 0xbd0; i += 1) {
 		printf("%x", buf[i]);

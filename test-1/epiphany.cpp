@@ -19,7 +19,7 @@ int main(int argc, char** args) {
 	e_irq_mask(E_DMA1_INT    , E_FALSE);
 	e_irq_mask(E_USER_INT    , E_FALSE);
 
-	e_coords_from_coreid(e_get_coreid(), (unsigned*) 0x44, (unsigned*) 0x40);
+	e_coords_from_coreid(e_get_coreid(), (unsigned*) 0x44, (unsigned*) 0x40); // the result is relative to the work group coordinates
 
 	*((u32*) 0x4c) = (u32) a;
 	*((u32*) 0x50) = (u32) b;
