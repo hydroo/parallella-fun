@@ -22,7 +22,7 @@ H_OBJECTS=$(patsubst %.cpp,%-host.o,$(H_SOURCES))
 E_EXECUTABLE=$(PROJECT_NAME)-epiphany.srec
 E_ELF=$(patsubst %.srec, %.elf, $(E_EXECUTABLE))
 E_SOURCES=epiphany.cpp
-E_OBJECTS=$(patsubst %.c,%-epiphany.o,$(E_SOURCES)) 
+E_OBJECTS=$(patsubst %.cpp,%-epiphany.o,$(E_SOURCES))
 
 all: $(H_EXECUTABLE) $(E_EXECUTABLE)
 
@@ -32,7 +32,7 @@ $(E_EXECUTABLE): $(E_ELF)
 $(E_ELF): $(E_OBJECTS)
 	$(E_LD) $(E_LFLAGS) -o $@ $^ $(E_LIBS)
 
-%-epiphany.o: %.c
+%-epiphany.o: %.cpp
 	$(E_CXX) $(E_CXXFLAGS) $(E_INCLUDE) -o $@ -c $<
 
 $(H_EXECUTABLE): $(H_OBJECTS)

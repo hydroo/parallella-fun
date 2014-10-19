@@ -9,6 +9,8 @@ u8 d[8192] __attribute__ ((section (".data_bank3")));
 
 int main(int argc, char** args) {
 
+	(void) argc; (void) args;
+
 	e_irq_mask(E_SYNC        , E_FALSE);
 	e_irq_mask(E_SW_EXCEPTION, E_FALSE);
 	e_irq_mask(E_MEM_FAULT   , E_FALSE);
