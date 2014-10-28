@@ -1,0 +1,23 @@
+# ideas for parameter tuning come from adapteva-epiphany-examples-git/apps/matmul-16
+
+45x45
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3
+    it took 1085948 cycles and 182250 fpops, should take 91125 and 182250 fpops
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3                     -falign-functions=8
+    it took 1085948 cycles and 182250 fpops, should take 91125 and 182250 fpops
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3                     -falign-functions=8 -falign-loops=8
+    it took 1086037 cycles and 182250 fpops, should take 91125 and 182250 fpops
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3                     -falign-functions=8 -falign-loops=8 -funroll-loops
+    it took  840926 cycles and 182250 fpops, should take 91125 and 182250 fpops
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -Ofast                  -falign-functions=8 -falign-loops=8 -funroll-loops
+    it took  830800 cycles and 182250 fpops, should take 91125 and 182250 fpops
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -Ofast -ftree-vectorize -falign-functions=8 -falign-loops=8 -funroll-loops
+    it took  830800 cycles and 182250 fpops, should take 91125 and 182250 fpops
+    hardcoded width
+      it took 828732 cycles and 182250 fpops, should take 91125 and 182250 fpops
+      hardcoded height
+        it took 804639 cycles and 182250 fpops, should take 91125 and 182250 fpops
+          compile and link in one command
+            it took 804639 cycles and 182250 fpops, should take 91125 and 182250 fpops
+              switch off fp timer
+                it took 792442 cycles and -1118077474 fpops, should take 91125 and 182250 fpops
