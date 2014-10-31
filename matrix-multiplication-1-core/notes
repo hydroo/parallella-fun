@@ -1,5 +1,4 @@
 # ideas for parameter tuning come from adapteva-epiphany-examples-git/apps/matmul-16
-
 45x45
   E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3
     it took 1085948 cycles and 182250 fpops, should take 91125 and 182250 fpops
@@ -30,3 +29,16 @@
             it took 804639 cycles and 182250 fpops, should take 91125 and 182250 fpops
               switch off fp timer
                 it took 792442 cycles and -1118077474 fpops, should take 91125 and 182250 fpops
+
+# using c99's restrict didn't speed things up
+
+# using datatypes other small than u32 for indices slows things down
+
+# using a group of 4 fmadds speeds things up, but using 3 ifs or a 4 vs 1 if is bad
+
+# manually optimized the loops
+45x45
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -O3
+    it took 800056 cycles and 182250 fpops, should take 91125 and 182250 fpops. 0.113898 fmadd/cycle.
+  E_CXXFLAGS=-Wall -Wextra -std=c++1y -Ofast -ftree-vectorize -falign-functions=8 -falign-loops=8 -funroll-loops
+    it took 729272 cycles and 182250 fpops, should take 91125 and 182250 fpops. 0.124953 fmadd/cycle.
