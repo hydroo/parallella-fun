@@ -13,6 +13,15 @@
     it took  830800 cycles and 182250 fpops, should take 91125 and 182250 fpops
   E_CXXFLAGS=-Wall -Wextra -std=c++1y -Ofast -ftree-vectorize -falign-functions=8 -falign-loops=8 -funroll-loops
     it took  830800 cycles and 182250 fpops, should take 91125 and 182250 fpops
+
+  ## no improvement using lto
+  #E_CXXFLAGS=-Wall -Wextra -std=c++1y -Ofast -ftree-vectorize -falign-functions=8 -falign-loops=8 -funroll-loops -flto
+  #E_FFLAGS=  -T ${EPIPHANY_HOME}/bsps/current/internal.ldf -Ofast -ftree-vectorize -falign-functions=8 -falign-loops=8 -funroll-loops -flto
+  #
+  #  it took  830800 cycles and 182250 fpops, should take 91125 and 182250 fpops
+
+  # compiling using c instead of c++ does (as expected) not make a difference
+
     hardcoded width
       it took 828732 cycles and 182250 fpops, should take 91125 and 182250 fpops
       hardcoded height
