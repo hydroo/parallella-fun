@@ -18,6 +18,7 @@ typedef long double f80;
 enum UserInterrupt {
 	NotDone = 0x0,
 	Done    = 0x1,
+	Error   = 0x2
 };
 
 #endif // PREREQS_HPP
