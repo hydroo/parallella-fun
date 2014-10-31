@@ -55,8 +55,8 @@ int main(int argc, char** args) {
 	UserInterrupt init = UserInterrupt::NotDone;
 	e_write(&dev, 0, 0, 0x24, &init, sizeof(init));
 
-	int matrixWidth  = 2;
-	int matrixHeight = 2;
+	int matrixWidth  = 45;
+	int matrixHeight = 45;
 
 	int aw = matrixWidth;   //       +-+
 	int ah = matrixHeight;  //    bh |b|
