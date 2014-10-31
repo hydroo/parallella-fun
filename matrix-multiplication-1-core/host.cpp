@@ -110,7 +110,7 @@ int main(int argc, char** args) {
 
 	fpops *= 2; // they are all fmadd, but are counted as single ones
 
-	printf("it took %d cycles and %d fpops, should take %d and %d fpops\n", cycles, fpops, cw*ch*aw, cw*ch*aw*2);
+	printf("it took %d cycles and %d fpops, should take %d and %d fpops. %f fmadd/cycle.\n", cycles, fpops, cw*ch*aw, cw*ch*aw*2, fpops/2 / (f32) cycles);
 
 	for (int k = 0; k < aw; k += 1) { // this order of loops is faster than the others on epiphany
 		for (int j = 0; j < ch; j += 1) {
